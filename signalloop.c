@@ -7,11 +7,11 @@
 
 static void term(int sig) {
     if (sig == SIGINT) {
-        int file = open("ended.txt", O_WRONLY | O_APPEND | O_CREAT, 0);
-        // char buffer[100] = "signalloop.c was terminated by SIGINT\n";
+        int file = open("ended.txt", O_WRONLY | O_APPEND | O_CREAT, 0644);
+        char buffer[38] = "signalloop.c was terminated by SIGINT\n";
         printf("terminated by SIGINT\n");
         // write(file,buffer,100);
-        write(file, "signalloop.c was terminated by SIGINT\n",100);
+        write(file, "signalloop.c was terminated by SIGINT\n",38);
         close(file);
         exit(0);
     }
