@@ -8,20 +8,25 @@
 static void term(int sig) {
     if (sig == SIGINT) {
         int file = open("ended.txt", O_WRONLY | O_APPEND | O_CREAT, 0);
-        char buffer[100] = "signalloop.c was terminated by SIGINT\n";
+        // char buffer[100] = "signalloop.c was terminated by SIGINT\n";
         printf("terminated by SIGINT\n");
-        // char time[100] =
-        write(file,buffer,100);
+        // write(file,buffer,100);
+        write(file, "signalloop.c was terminated by SIGINT\n",100);
         close(file);
         exit(0);
+    }
+    if (sig == SIGUSR1) {
+        printf("parent pid: %d\n", getppid());
     }
 }
 
 int main() {
     signal(SIGINT, term);
-    
+    signal(SIGUSR1, term);
+
     while(1) {
         printf("pid: %d\n",getpid());
+        kill(getpid(),SIGUSR1);
         sleep(1);
     }
 
